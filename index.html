@@ -7,18 +7,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
-/* ===== ẢNH TÙY CHỈNH =====
+/* ===== ẢNH VÀ NHẠC TÙY CHỈNH =====
    Upload file cùng thư mục với index.html, đặt đúng tên (đuôi gif, png, jpg, jpeg hoặc webp đều được):
      avatar.*      ảnh đại diện
      cover.*       nền phía sau avatar (dải trên cùng của thẻ)
      background.*  nền phía sau cả thẻ
      cat.*         icon mèo ở hàng huy hiệu
+   Nhạc: upload file mp3 tên  nhac.mp3  (sửa tên ở thẻ <audio> bên dưới nếu muốn).
    Chưa có file nào thì trang tự dùng màu mặc định. */
 :root{
   --accent:#FF6FA5;
   --page-bg:none;
   --cover-bg:none;
 }
+@property --ang{syntax:'<angle>';initial-value:0deg;inherits:false}
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%;background:#08080E}
 body{
@@ -27,35 +29,75 @@ body{
   background:var(--page-bg) center/cover no-repeat,radial-gradient(ellipse at 20% 0%,#2A1030 0%,transparent 55%),radial-gradient(ellipse at 90% 100%,#0F1F3A 0%,transparent 55%),#08080E;
   background-attachment:fixed;
 }
-.card{max-width:480px;margin:0 auto;border-radius:16px;border:1px solid rgba(255,255,255,.12);background:rgba(18,18,28,.88);overflow:hidden}
+
+/* Màn hình "Bấm để vào" */
+#gate{
+  position:fixed;inset:0;z-index:50;border:none;margin:0;padding:0;cursor:pointer;
+  background:#08080E;display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace;font-size:20px;letter-spacing:.12em;
+  transition:opacity .6s ease;
+}
+#gate.hide{opacity:0;pointer-events:none}
+#gate .gate-text{animation:gate-pulse 2s ease-in-out infinite}
+@keyframes gate-pulse{0%,100%{opacity:.55}50%{opacity:1}}
+
+/* Viền neon chạy quanh thẻ */
+.frame{
+  max-width:480px;margin:0 auto;padding:2px;border-radius:18px;
+  background:conic-gradient(from var(--ang),#FF6FA5,#C77DFF,#8FA8FF,#FF6FA5);
+  animation:frame-spin 6s linear infinite;
+  box-shadow:0 0 28px rgba(255,111,165,.22);
+}
+@keyframes frame-spin{to{--ang:360deg}}
+.card{border-radius:16px;background:#12121C;overflow:hidden}
+
 .bar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.1);font-family:'JetBrains Mono',monospace;font-size:14px;color:#8C8CA0}
 .bar .ctl{display:flex;gap:16px}
 .spin-star{display:block;animation:star-spin 4s linear infinite}
 @keyframes star-spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 .cover{height:132px;background:var(--cover-bg) center/cover no-repeat,linear-gradient(135deg,var(--accent) 0%,#3A1F6B 55%,#0F1F3A 100%)}
 .inner{padding:0 24px 28px;display:flex;flex-direction:column;gap:28px}
-header{display:flex;flex-direction:column;gap:12px;margin-top:-52px;position:relative;z-index:1}
-.avatar{position:relative;overflow:hidden;width:104px;height:104px;border-radius:52px;border:4px solid #12121C;background:#1E1E2E;display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:800;color:var(--accent)}
+header{display:flex;flex-direction:column;gap:12px;margin-top:-56px;position:relative;z-index:1}
+
+/* Vòng sáng gradient xoay quanh avatar */
+.ring{position:relative;width:112px;height:112px}
+.ring::before,.ring::after{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from var(--ang),#FF6FA5,#C77DFF,#8FA8FF,#FF6FA5);
+  animation:frame-spin 4s linear infinite;
+}
+.ring::after{filter:blur(10px);opacity:.55}
+.avatar{position:absolute;left:4px;top:4px;overflow:hidden;width:104px;height:104px;border-radius:52px;border:4px solid #12121C;background:#1E1E2E;display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:800;color:var(--accent);z-index:1}
+.avatar img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover}
+
 h1{margin:0;font-size:28px;font-weight:800;letter-spacing:-.01em}
 .user{font-family:'JetBrains Mono',monospace;font-size:14px;color:#A0A0B8}
-.status{font-weight:600;font-size:15px;color:var(--accent)}
+.status{font-weight:600;font-size:15px;color:var(--accent);min-height:1.55em}
+.status .caret{display:inline-block;width:2px;height:1em;margin-left:2px;vertical-align:-.12em;background:var(--accent);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
 .row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
 .pill{padding:4px 12px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);font-size:14px}
 .pill.mono{font-family:'JetBrains Mono',monospace;font-size:13px}
 .badges{display:flex;gap:6px}
-.avatar img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover}
 .badge{width:34px;height:34px;border-radius:17px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;font-size:18px;line-height:1;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
 h2{margin:0 0 10px;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
 p{margin:0;font-size:16px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .chips .pill{padding:6px 14px}
 .links{display:flex;flex-direction:column;gap:10px}
-.link{display:flex;align-items:center;gap:12px;min-height:52px;padding:0 16px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#F2F2F7;text-decoration:none;font-weight:500}
+.link{
+  display:flex;align-items:center;gap:12px;min-height:52px;padding:0 16px;border-radius:12px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  color:#F2F2F7;text-decoration:none;font-weight:500;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),border-color .2s;
+}
 .link span.l{flex:1}
 .link span.h{font-family:'JetBrains Mono',monospace;font-size:13px;color:#A0A0B8}
-.link:hover{border-color:var(--accent)}
+.link:hover{border-color:var(--accent);transform:translateY(-2px)}
+.link:active{transform:scale(.95)}
 .music{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}
-.play{width:48px;height:48px;border-radius:24px;border:none;background:var(--accent);color:#1A0A12;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.play{width:48px;height:48px;border-radius:24px;border:none;background:var(--accent);color:#1A0A12;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.play:active{transform:scale(.9)}
 .track{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
 .track b{font-weight:600;font-size:15px}
 .prog{height:4px;border-radius:2px;background:rgba(255,255,255,.15)}
@@ -78,10 +120,21 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
 .g-vn{background-image:linear-gradient(90deg,#FF2D2D,#FFD21F,#FF2D2D,#FFD21F,#FF2D2D);font-weight:700}
 .g-tiktok{background-image:linear-gradient(90deg,#25F4EE,#FFFFFF,#FE2C55,#FFFFFF,#25F4EE)}
 
-@media (prefers-reduced-motion:reduce){.spin-star,.gtext{animation:none}}
+@media (prefers-reduced-motion:reduce){
+  .spin-star,.gtext,.frame,.ring::before,.ring::after,#gate .gate-text,.status .caret{animation:none}
+  .link,.play,#gate{transition:none}
+}
 </style>
 </head>
 <body>
+
+<button id="gate" type="button" aria-label="Bấm để vào trang">
+  <span class="gate-text gtext g-name">Bấm để vào</span>
+</button>
+
+<audio id="song" src="nhac.mp3" loop preload="auto"></audio>
+
+<div class="frame">
 <div class="card">
 
   <div class="bar">
@@ -95,12 +148,12 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
 
   <div class="inner">
     <header>
-      <div class="avatar">G<img id="avatar-img" alt="Ảnh đại diện" style="display:none"></div>
+      <div class="ring"><div class="avatar">G<img id="avatar-img" alt="Ảnh đại diện" style="display:none"></div></div>
       <div>
         <h1><span class="gtext g-name">Shawty</span></h1>
         <div class="user">@hganh9128</div>
       </div>
-      <div class="status">#lu hon loc xoay</div>
+      <div class="status" id="status">#lu hon loc xoay</div>
       <div class="row">
         <span class="pill mono"><span class="gtext g-vn">VN</span></span>
         <div class="badges">
@@ -144,11 +197,11 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
         <div class="prog"><i></i></div>
         <div class="time"><span>0:00</span><span>[0:00]</span></div>
       </div>
-      <!-- Khi có file nhạc: <audio id="song" src="nhac.mp3" loop></audio> -->
     </section>
 
     <footer>following my heart wherever it leads.</footer>
   </div>
+</div>
 </div>
 
 <script>
@@ -171,6 +224,7 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
   pick('avatar', function (u) {
     var el = document.getElementById('avatar-img');
     el.src = u; el.style.display = 'block';
+    el.parentNode.style.fontSize = '0'; /* ẩn chữ G khi đã có ảnh */
   });
   pick('cat', function (u) {
     document.getElementById('cat-img').src = u;
@@ -183,14 +237,56 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
     document.documentElement.style.setProperty('--page-bg', 'url("' + u + '")');
   });
 
-  var playing = false;
+  /* Nhạc */
   var song = document.getElementById('song');
-  document.getElementById('play').addEventListener('click', function () {
-    playing = !playing;
+  var playing = false;
+  function showIcons() {
     document.getElementById('ico-play').style.display = playing ? 'none' : 'block';
     document.getElementById('ico-pause').style.display = playing ? 'block' : 'none';
-    if (song) { playing ? song.play() : song.pause(); }
+  }
+  function setPlaying(on) {
+    playing = on;
+    showIcons();
+    if (!song) return;
+    if (on) {
+      var p = song.play();
+      if (p && p.catch) p.catch(function () { /* chưa có file nhạc hoặc bị chặn */ });
+    } else {
+      song.pause();
+    }
+  }
+  document.getElementById('play').addEventListener('click', function () { setPlaying(!playing); });
+
+  /* Màn hình "Bấm để vào": bấm xong mới mở trang và bật nhạc */
+  var gate = document.getElementById('gate');
+  gate.addEventListener('click', function () {
+    gate.classList.add('hide');
+    setTimeout(function () { gate.style.display = 'none'; }, 700);
+    setPlaying(true);
   });
+
+  /* Dòng trạng thái tự gõ chữ */
+  var st = document.getElementById('status');
+  var full = st.textContent.trim();
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) {
+    var txt = document.createTextNode('');
+    var caret = document.createElement('span');
+    caret.className = 'caret';
+    st.textContent = '';
+    st.appendChild(txt);
+    st.appendChild(caret);
+    var n = 0, dir = 1;
+    (function tick() {
+      n += dir;
+      txt.nodeValue = full.slice(0, n);
+      var wait = 90;
+      if (n >= full.length) { dir = -1; wait = 2200; }
+      else if (n <= 0) { dir = 1; wait = 600; }
+      else if (dir === -1) { wait = 45; }
+      setTimeout(tick, wait);
+    })();
+  }
 </script>
 </body>
 </html>
