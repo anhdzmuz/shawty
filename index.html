@@ -149,6 +149,11 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
 </div>
 
 <script>
+  /* Link chưa điền (href="#") thì bấm vào không làm gì, không nhảy lên đầu trang */
+  document.querySelectorAll('a[href="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); });
+  });
+
   var playing = false;
   var song = document.getElementById('song');
   document.getElementById('play').addEventListener('click', function () {
