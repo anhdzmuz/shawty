@@ -137,12 +137,12 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
 .game-ico::after{content:"";position:absolute;top:-4px;right:-4px;width:8px;height:8px;background:#fff;
   clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);
   filter:drop-shadow(0 0 3px rgba(var(--glow),1));
-  animation:ico-twinkle 2.6s ease-in-out infinite}
-.game-ico.gold::after{animation-delay:1.3s}
+  opacity:0}
+.game-ico.tw::after{animation:ico-twinkle .9s ease-in-out 1}
 @keyframes ico-glow{
   0%,100%{filter:drop-shadow(0 0 2px rgba(var(--glow),.7)) drop-shadow(0 0 5px rgba(var(--glow),.35))}
   50%{filter:drop-shadow(0 0 4px rgba(var(--glow),1)) drop-shadow(0 0 10px rgba(var(--glow),.75))}}
-@keyframes ico-twinkle{0%,70%,100%{opacity:0;transform:scale(.2) rotate(0)}85%{opacity:1;transform:scale(1) rotate(45deg)}}
+@keyframes ico-twinkle{0%{opacity:0;transform:scale(.2) rotate(0)}50%{opacity:1;transform:scale(1.1) rotate(45deg)}100%{opacity:0;transform:scale(.2) rotate(90deg)}}
 .g-discord{background-image:linear-gradient(90deg,#6D79FF,#B4BCFF,#6D79FF,#B4BCFF,#6D79FF)}
 .g-vn{background-image:linear-gradient(90deg,#FF2D2D,#FFD21F,#FF2D2D,#FFD21F,#FF2D2D);font-weight:700}
 .g-tiktok{background-image:linear-gradient(90deg,#25F4EE,#FFFFFF,#FE2C55,#FFFFFF,#25F4EE)}
@@ -190,10 +190,6 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
   .track b{font-size:14px}
 }
 
-@media (prefers-reduced-motion:reduce){
-  .spin-star,.music-star,.gtext,.game-ico img,.game-ico::after,.frame,.ring::before,.ring::after,#gate .gate-text,.status .caret{animation:none}
-  .link,.play,#gate{transition:none}
-}
 </style>
 </head>
 <body>
@@ -377,7 +373,7 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
   /* Dòng trạng thái tự gõ chữ */
   var st = document.getElementById('status');
   var full = st.textContent.trim();
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reduce = false;
   if (!reduce) {
     var txt = document.createTextNode('');
     var caret = document.createElement('span');
@@ -396,6 +392,16 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
       setTimeout(tick, wait);
     })();
   }
+  /* Ngôi sao lấp lánh trên icon game: ngẫu nhiên 2-4 giây lóe một lần */
+  document.querySelectorAll('.game-ico').forEach(function (el) {
+    (function loop() {
+      setTimeout(function () {
+        el.classList.add('tw');
+        setTimeout(function () { el.classList.remove('tw'); }, 950);
+        loop();
+      }, 2000 + Math.random() * 2000);
+    })();
+  });
 </script>
 </body>
 </html>
