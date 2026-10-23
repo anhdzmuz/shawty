@@ -13,6 +13,7 @@
      cover.*       nền phía sau avatar (dải trên cùng của thẻ)
      background.*  nền phía sau cả thẻ
      cat.*         icon mèo ở hàng huy hiệu
+     music.*       ảnh vuông 1:1 nằm trong nút phát nhạc
    Nhạc: upload file mp3 tên  nhac.mp3  (sửa tên ở thẻ <audio> bên dưới nếu muốn).
    Chưa có file nào thì trang tự dùng màu mặc định. */
 :root{
@@ -159,6 +160,17 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
 .pill.tag-px:focus:not(:focus-visible){outline:none}
 .pill.tag-px:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .pill.tag-px svg{display:block;flex:none;filter:drop-shadow(0 0 2px rgba(199,125,255,.6))}
+/* Nút nhạc: ảnh 1:1 bên trong, quầng sáng đập nhẹ khi đang phát */
+.play{position:relative;overflow:hidden}
+.play img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.play svg{position:relative;z-index:1}
+.play.has-img{color:#fff}
+.play.has-img::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:0}
+.play.has-img svg{filter:drop-shadow(0 1px 3px rgba(0,0,0,.7))}
+.play.playing{animation:play-glow 1.6s ease-in-out infinite}
+@keyframes play-glow{
+  0%,100%{box-shadow:0 0 6px 1px rgba(255,111,165,.45),0 0 0 0 rgba(199,125,255,0)}
+  50%{box-shadow:0 0 18px 4px rgba(255,111,165,.8),0 0 0 7px rgba(199,125,255,.2)}}
 .g-discord{background-image:linear-gradient(90deg,#6D79FF,#B4BCFF,#6D79FF,#B4BCFF,#6D79FF)}
 .g-vn{background-image:linear-gradient(90deg,#FF2D2D,#FFD21F,#FF2D2D,#FFD21F,#FF2D2D);font-weight:700}
 .g-tiktok{background-image:linear-gradient(90deg,#25F4EE,#FFFFFF,#FE2C55,#FFFFFF,#25F4EE)}
@@ -276,7 +288,7 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
     </section>
 
     <section>
-      <h2>My Contact</h2>
+      <h2>Liên hệ</h2>
       <div class="links">
         <a class="link" href="https://discord.com/users/1031799680792809522">
           <svg class="app-icon" width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
@@ -297,6 +309,7 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
 
     <section class="music">
       <button class="play" id="play" aria-label="Phát hoặc dừng nhạc">
+        <img id="play-img" alt="" style="display:none">
         <svg id="ico-play" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
         <svg id="ico-pause" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:none"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
       </button>
@@ -344,6 +357,11 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
   pick('cover', function (u) {
     document.documentElement.style.setProperty('--cover-bg', 'url("' + u + '")');
   });
+  pick('music', function (u) {
+    var im = document.getElementById('play-img');
+    im.src = u; im.style.display = 'block';
+    document.getElementById('play').classList.add('has-img');
+  });
   pick('background', function (u) {
     document.documentElement.style.setProperty('--page-bg', 'url("' + u + '")');
   });
@@ -354,6 +372,7 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
   function showIcons() {
     document.getElementById('ico-play').style.display = playing ? 'none' : 'block';
     document.getElementById('ico-pause').style.display = playing ? 'block' : 'none';
+    document.getElementById('play').classList.toggle('playing', playing);
   }
   function setPlaying(on) {
     playing = on;
