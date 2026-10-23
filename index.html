@@ -22,6 +22,7 @@
   --cover-bg:none;
 }
 @property --ang{syntax:'<angle>';initial-value:0deg;inherits:false}
+@property --gc{syntax:'<color>';initial-value:#FF3B3B;inherits:false}
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%;background:#08080E}
 body{
@@ -167,10 +168,12 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
 .play.has-img{color:#fff}
 .play.has-img::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:0}
 .play.has-img svg{filter:drop-shadow(0 1px 3px rgba(0,0,0,.7))}
-.play.playing{animation:play-glow 1.6s ease-in-out infinite}
+.play{--cycle:2.4s;--pulse:1.2s}  /* chỉnh 2 số này để đổi tốc độ: cycle = thời gian chạy đủ 7 màu, pulse = nhịp sáng */
+.play.playing{animation:gc-cycle var(--cycle) linear infinite,play-glow var(--pulse) ease-in-out infinite}
+@keyframes gc-cycle{0%,100%{--gc:#FF3B3B}14.28%{--gc:#FF9F1C}28.57%{--gc:#FFE600}42.85%{--gc:#3DFF6E}57.14%{--gc:#22E6FF}71.42%{--gc:#3D6BFF}85.71%{--gc:#E83DFF}}
 @keyframes play-glow{
-  0%,100%{box-shadow:0 0 6px 1px rgba(255,111,165,.45),0 0 0 0 rgba(199,125,255,0)}
-  50%{box-shadow:0 0 18px 4px rgba(255,111,165,.8),0 0 0 7px rgba(199,125,255,.2)}}
+  0%,100%{box-shadow:0 0 6px 1px color-mix(in srgb,var(--gc) 50%,transparent),0 0 0 0 transparent}
+  50%{box-shadow:0 0 20px 5px color-mix(in srgb,var(--gc) 85%,transparent),0 0 0 7px color-mix(in srgb,var(--gc) 22%,transparent)}}
 .g-discord{background-image:linear-gradient(90deg,#6D79FF,#B4BCFF,#6D79FF,#B4BCFF,#6D79FF)}
 .g-vn{background-image:linear-gradient(90deg,#FF2D2D,#FFD21F,#FF2D2D,#FFD21F,#FF2D2D);font-weight:700}
 .g-tiktok{background-image:linear-gradient(90deg,#25F4EE,#FFFFFF,#FE2C55,#FFFFFF,#25F4EE)}
