@@ -154,6 +154,10 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
 @keyframes spk{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.55);opacity:.55}}
 /* Tag biểu cảm pixel */
 .pill.tag-px{display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 12px}
+.pill.tag-px{cursor:pointer;color:inherit;font:inherit;-webkit-tap-highlight-color:transparent;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.pill.tag-px:active{transform:scale(.9)}
+.pill.tag-px:focus:not(:focus-visible){outline:none}
+.pill.tag-px:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .pill.tag-px svg{display:block;flex:none;filter:drop-shadow(0 0 2px rgba(199,125,255,.6))}
 .g-discord{background-image:linear-gradient(90deg,#6D79FF,#B4BCFF,#6D79FF,#B4BCFF,#6D79FF)}
 .g-vn{background-image:linear-gradient(90deg,#FF2D2D,#FFD21F,#FF2D2D,#FFD21F,#FF2D2D);font-weight:700}
@@ -255,12 +259,11 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
           </svg>
           <span class="gtext g-name">2008</span>
         </span>
-        <span class="pill tag-px" role="img" aria-label="Biểu cảm pixel">
+        <button type="button" class="pill tag-px" aria-label="Biểu cảm pixel, bấm để đổi">
           <svg width="34" height="14" viewBox="0 0 17 7" shape-rendering="crispEdges" aria-hidden="true">
-            <defs><linearGradient id="pxGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="17" y2="0" spreadMethod="reflect"><stop offset="0" stop-color="#FF6FA5"/><stop offset=".5" stop-color="#C77DFF"/><stop offset="1" stop-color="#8FA8FF"/><animateTransform attributeName="gradientTransform" type="translate" values="-5 0;5 0;-5 0" dur="3s" repeatCount="indefinite"/></linearGradient></defs>
-            <path id="px-path" fill="url(#pxGrad)" d=""/>
+            <path id="px-path" fill="#FFFFFF" d=""/>
           </svg>
-        </span>
+        </button>
       </div>
     </header>
 
@@ -433,7 +436,7 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
       }, 2000 + Math.random() * 2000);
     })();
   });
-  /* Tag biểu cảm pixel: ?  ^_^  !  OvO  đổi liên tục mỗi 0.25 giây */
+  /* Tag biểu cảm pixel: mỗi hình một màu, tự đổi mỗi 0.3 giây, bấm vào để đổi ngay */
   (function () {
     var G = {
       '?': ['.###.', '#...#', '....#', '..##.', '..#..', '.....', '..#..'],
@@ -441,7 +444,12 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
       '^': ['.....', '..#..', '.#.#.', '#...#', '.....', '.....', '.....'],
       '_': ['.....', '.....', '.....', '.....', '.....', '#####', '.....'],
       'O': ['.....', '.###.', '#...#', '#...#', '#...#', '.###.', '.....'],
-      'v': ['.....', '.....', '.....', '#...#', '.#.#.', '..#..', '.....']
+      'v': ['.....', '.....', '.....', '#...#', '.#.#.', '..#..', '.....'],
+      'U': ['.....', '#...#', '#...#', '#...#', '#...#', '.###.', '.....'],
+      'w': ['.....', '.....', '.....', '#...#', '#.#.#', '.#.#.', '.....'],
+      '>': ['.....', '..#..', '...#.', '....#', '...#.', '..#..', '.....'],
+      '<': ['.....', '..#..', '.#...', '#....', '.#...', '..#..', '.....'],
+      '-': ['.....', '.....', '.....', '.###.', '.....', '.....', '.....']
     };
     var COLS = 17, ROWS = 7;
     function build(text) {
@@ -458,13 +466,57 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
           if (rows[y].charAt(x) === '#') d += 'M' + x + ' ' + y + 'h1v1h-1z';
       return d;
     }
-    var faces = ['?', '^_^', '!', 'OvO'].map(build);
+    /* [hình, màu] theo thứ tự chuyển */
+    var list = [['?', '#6FB1FF'], ['!', '#FFD84D'], ['OvO', '#FFFFFF'], ['>_<', '#FF5D73'],
+                ['-_-', '#A9ADBA'], ['UwU', '#FF8FC4'], ['^_^', '#5CE6C4']
+    ].map(function (f) { return { d: build(f[0]), c: f[1] }; });
     var path = document.getElementById('px-path');
     if (!path) return;
-    var k = 0;
-    function tick() { path.setAttribute('d', faces[k]); k = (k + 1) % faces.length; }
-    tick();
-    setInterval(tick, 250);
+    var svg = path.parentNode, btn = path.closest('.tag-px');
+    var k = 0, timer;
+    function show() {
+      var f = list[k];
+      path.setAttribute('d', f.d);
+      path.setAttribute('fill', f.c);
+      svg.style.filter = 'drop-shadow(0 0 3px ' + f.c + ')';
+      k = (k + 1) % list.length;
+    }
+    function start() { clearInterval(timer); timer = setInterval(show, 300); }
+    show();
+    start();
+    /* Bấm vào tag để đổi hình ngay */
+    btn.addEventListener('click', function () { show(); start(); });
+  })();
+  /* Bấm vào đâu cũng có vài ngôi sao pixel bay ra */
+  (function () {
+    var STAR = ['..#..', '..#..', '#####', '..#..', '..#..'];
+    var d = '';
+    STAR.forEach(function (row, y) {
+      for (var x = 0; x < 5; x++) if (row.charAt(x) === '#') d += 'M' + x + ' ' + y + 'h1v1h-1z';
+    });
+    var colors = ['#FF6FA5', '#C77DFF', '#8FA8FF', '#FFD966', '#FFFFFF'];
+    var alive = 0;
+    document.addEventListener('pointerdown', function (e) {
+      if (alive > 40) return;
+      for (var i = 0; i < 7; i++) {
+        var c = colors[Math.floor(Math.random() * colors.length)];
+        var el = document.createElement('div');
+        el.setAttribute('aria-hidden', 'true');
+        el.style.cssText = 'position:fixed;z-index:100;pointer-events:none;width:10px;height:10px;left:' + (e.clientX - 5) + 'px;top:' + (e.clientY - 5) + 'px;filter:drop-shadow(0 0 3px ' + c + ')';
+        el.innerHTML = '<svg width="10" height="10" viewBox="0 0 5 5" shape-rendering="crispEdges" style="display:block"><path fill="' + c + '" d="' + d + '"/></svg>';
+        document.body.appendChild(el);
+        alive++;
+        var ang = Math.random() * Math.PI * 2, dist = 28 + Math.random() * 34;
+        var dx = Math.cos(ang) * dist, dy = Math.sin(ang) * dist + 14;
+        var a = el.animate([
+          { transform: 'translate(0,0) scale(1) rotate(0deg)', opacity: 1 },
+          { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(.25) rotate(' + (Math.random() * 180 - 90) + 'deg)', opacity: 0 }
+        ], { duration: 600 + Math.random() * 400, easing: 'cubic-bezier(.2,.7,.3,1)' });
+        (function (node) {
+          a.onfinish = function () { node.remove(); alive--; };
+        })(el);
+      }
+    });
   })();
 </script>
 </body>
