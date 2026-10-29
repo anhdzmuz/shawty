@@ -288,6 +288,140 @@ footer{text-align:center;font-size:12px;color:#8C8CA0;border-top:1px solid rgba(
     <section>
       <h2>My game</h2>
       <div class="chips">
+        <span class="pill"><span class="game-ico"><img alt="" src="data:image/png;base64,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-origin:center;animation:spk 2.4s ease-in-out infinite}
+.sparkle .sp-b{animation-delay:1.2s}
+@keyframes spk{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.55);opacity:.55}}
+/* Tag biểu cảm pixel */
+.pill.tag-px{display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 12px}
+.pill.tag-px{cursor:pointer;color:inherit;font:inherit;-webkit-tap-highlight-color:transparent;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.pill.tag-px:active{transform:scale(.9)}
+.pill.tag-px:focus:not(:focus-visible){outline:none}
+.pill.tag-px:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.pill.tag-px svg{display:block;flex:none;filter:drop-shadow(0 0 2px rgba(199,125,255,.6))}
+/* Nút nhạc: ảnh 1:1 bên trong, quầng sáng đập nhẹ khi đang phát */
+.play{position:relative;overflow:hidden}
+.play img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.play svg{position:relative;z-index:1}
+.play.has-img{color:#fff}
+.play.has-img::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:0}
+.play.has-img svg{filter:drop-shadow(0 1px 3px rgba(0,0,0,.7))}
+.play{--cycle:2.4s;--pulse:1.2s}  /* chỉnh 2 số này để đổi tốc độ: cycle = thời gian chạy đủ 7 màu, pulse = nhịp sáng */
+.play.playing{animation:gc-cycle var(--cycle) linear infinite,play-glow var(--pulse) ease-in-out infinite}
+@keyframes gc-cycle{0%,100%{--gc:#FF3B3B}14.28%{--gc:#FF9F1C}28.57%{--gc:#FFE600}42.85%{--gc:#3DFF6E}57.14%{--gc:#22E6FF}71.42%{--gc:#3D6BFF}85.71%{--gc:#E83DFF}}
+@keyframes play-glow{
+  0%,100%{box-shadow:0 0 6px 1px color-mix(in srgb,var(--gc) 50%,transparent),0 0 0 0 transparent}
+  50%{box-shadow:0 0 20px 5px color-mix(in srgb,var(--gc) 85%,transparent),0 0 0 7px color-mix(in srgb,var(--gc) 22%,transparent)}}
+.g-discord{background-image:linear-gradient(90deg,#6D79FF,#B4BCFF,#6D79FF,#B4BCFF,#6D79FF)}
+.g-vn{background-image:linear-gradient(90deg,#FF2D2D,#FFD21F,#FF2D2D,#FFD21F,#FF2D2D);font-weight:700}
+.g-tiktok{background-image:linear-gradient(90deg,#25F4EE,#FFFFFF,#FE2C55,#FFFFFF,#25F4EE)}
+
+/* Bố cục thích ứng cho máy tính bảng, PC và điện thoại */
+@media (min-width:768px){
+  body{padding:36px 24px 48px}
+  .frame{width:min(100%,520px)}
+  .cover{height:148px}
+  .inner{padding:0 30px 32px;gap:30px}
+  header{margin-top:-60px}
+  .ring{width:120px;height:120px}
+  .avatar{left:4px;top:4px;width:112px;height:112px}
+}
+
+@media (max-width:600px){
+  body{min-height:100svh;padding:24px 12px 32px}
+  .frame{width:100%;max-width:480px}
+  .cover{height:116px}
+  .inner{padding:0 18px 22px;gap:22px}
+  header{gap:10px;margin-top:-48px}
+  .ring{width:100px;height:100px}
+  .avatar{left:4px;top:4px;width:92px;height:92px;font-size:36px}
+  h1{font-size:26px}
+  .status{font-size:14px}
+  p{font-size:13px}
+  .link{min-height:50px;padding:0 13px}
+  .music{gap:11px;padding:12px}
+  .play{width:44px;height:44px}
+}
+
+@media (max-width:380px){
+  body{padding:16px 8px 24px}
+  .inner{padding:0 14px 18px;gap:19px}
+  .bar{padding:9px 12px}
+  .cover{height:104px}
+  header{margin-top:-42px}
+  .ring{width:88px;height:88px}
+  .avatar{width:80px;height:80px;font-size:32px}
+  h1{font-size:24px}
+  .pill{padding:4px 10px;font-size:13px}
+  .chips .pill{padding:5px 11px}
+  .link{gap:9px;padding:0 11px;font-size:14px}
+  .link span.h{font-size:12px}
+  .track b{font-size:14px}
+}
+
+</style>
+</head>
+<body>
+
+<button id="gate" type="button" aria-label="Welcome, bấm để vào trang">
+  <span class="gate-text gtext g-name">Welcome</span>
+  <span class="gate-sub">- click anywhere -</span>
+</button>
+
+<audio id="song" src="nhac.mp3" loop preload="auto"></audio>
+
+<div class="frame">
+<div class="card">
+
+  <div class="bar">
+    <svg class="spin-star" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 2l3 6.5 7 .9-5.1 4.9 1.3 7L12 17.8 5.8 21.3l1.3-7L2 9.4l7-.9z" fill="#FF6FA5" stroke="#FF6FA5" stroke-width="1.2" stroke-linejoin="round"/>
+    </svg>
+    <div class="ctl" aria-hidden="true"><span>–</span><span>□</span><span>✕</span></div>
+  </div>
+
+  <div class="cover"></div>
+
+  <div class="inner">
+    <header>
+      <div class="ring"><div class="avatar">G<img id="avatar-img" alt="Ảnh đại diện" style="display:none"></div></div>
+      <div>
+        <h1><span class="gtext g-name">Shawty</span></h1>
+        <div class="user">@hganh9128</div>
+      </div>
+      <div class="status" id="status">#lu hon loc xoay</div>
+      <div class="row">
+        <span class="pill mono"><span class="gtext g-vn">VN</span></span>
+        <div class="badges">
+          <span class="badge" role="img" aria-label="Lấp lánh">
+            <svg class="sparkle" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+              <defs><linearGradient id="spkGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="24" y2="0" spreadMethod="reflect"><stop offset="0" stop-color="#FFC93C"/><stop offset=".5" stop-color="#FFFFFF"/><stop offset="1" stop-color="#FFD966"/><animateTransform attributeName="gradientTransform" type="translate" values="-8 0;8 0;-8 0" dur="4s" repeatCount="indefinite"/></linearGradient></defs>
+              <g fill="url(#spkGrad)" stroke="url(#spkGrad)" stroke-width=".6" stroke-linejoin="round">
+                <path d="M10 5.5Q11.3 12.7 18.5 14Q11.3 15.3 10 22.5Q8.7 15.3 1.5 14Q8.7 12.7 10 5.5Z"/>
+                <path class="sp-a" d="M19.5 2Q20.1 5.4 23.5 6Q20.1 6.6 19.5 10Q18.9 6.6 15.5 6Q18.9 5.4 19.5 2Z"/>
+                <path class="sp-b" d="M4.5 1.9Q4.9 4.1 7.1 4.5Q4.9 4.9 4.5 7.1Q4.1 4.9 1.9 4.5Q4.1 4.1 4.5 1.9Z"/>
+              </g>
+            </svg>
+          </span>
+          <span class="badge" id="cat-badge" style="display:none"><img id="cat-img" alt="Mèo" width="30" height="30" style="display:block;object-fit:contain"></span>
+        </div>
+        <span class="pill tag-year">
+          <svg width="19" height="19" viewBox="0 1 24 24" fill="none" stroke="url(#capGrad)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Cung Ma Kết">
+            <defs><linearGradient id="capGrad" x1="0" y1="0" x2="1" y2="0" spreadMethod="reflect"><stop offset="0" stop-color="#FF6FA5"/><stop offset=".5" stop-color="#C77DFF"/><stop offset="1" stop-color="#8FA8FF"/><animateTransform attributeName="gradientTransform" type="translate" values="-0.5 0;0.5 0;-0.5 0" dur="4s" repeatCount="indefinite"/></linearGradient></defs>
+            <path d="M3.5 6.5C5 4 8 4.5 8.5 8L10.5 17.5 12 8.5C12.5 5.5 16 5 16 8.5V14.5C16 17 18.5 17.5 19.5 16.5 21 17.5 21 20.5 19 21 17 21.5 15.5 20 16 18"/>
+          </svg>
+          <span class="gtext g-name">2008</span>
+        </span>
+        <button type="button" class="pill tag-px" aria-label="Biểu cảm pixel, bấm để đổi">
+          <svg width="34" height="14" viewBox="0 0 17 7" shape-rendering="crispEdges" aria-hidden="true">
+            <path id="px-path" fill="#FFFFFF" d=""/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <section>
+      <h2>My game</h2>
+      <div class="chips">
         <span class="pill"><span class="game-ico"><img alt="" src="data:image/png;base64,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-px{display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 12px}
 .pill.tag-px{cursor:pointer;color:inherit;font:inherit;-webkit-tap-highlight-color:transparent;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
 .pill.tag-px:active{transform:scale(.9)}
